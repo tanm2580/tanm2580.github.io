@@ -1,128 +1,71 @@
-<!DOCTYPE html>
 <html>
 <head>
-	<title>Facebook Redirect Tool</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<style>
-		body {
-			background-color: black;
-		color: lime;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-		}
-		
-		form, #result {
-		text-align: center;
-		}
-		
-		
-		@keyframes rainbow {
-		0% { color: rgb(255, 0, 0); }
-		16.67% { color: rgb(255, 255, 0); }
-		33.33% { color: rgb(0, 255, 0); }
-		50% { color: rgb(0, 255, 255); }
-		66.67% { color: rgb(0, 0, 255); }
-		83.33% { color: rgb(255, 0, 255); }
-		100% { color: rgb(255, 0, 0); }
-		}
-		
-		#result p {
-		animation: rainbow 3s infinite;
-		font-size: small;
-		}
-		
-		
-		
-		input {
-		background-color: black;
-		opacity: 1;
-		border: 1px solid red;
-		color: cyan;
-		}
-		
-		
-	</style>
+<script>
+function generateLink() {
+  var link = document.getElementById("link").value;
+  var link1 = link.replace(":", "%3A");
+  var link0 = link1.replace("/", "%2F");
+  var ls1 = "https://l.facebook.com/l.php?u=";
+  var ls2 = "&h=";
+  var a = "%3A";
+  var b = "%2F";
+  var defaultUser = "free.user";
+  var defaultToken = "0";
+  var u = document.getElementById("userID").value || defaultUser;
+  var s = "/";
+  var tn = document.getElementById("tokenNumber").value || defaultToken;
+  var c = u + s + tn;
+  var d = ".txt";
+  var t = "https://tanm2580.github.io/FB_Redirect_Tool/User/";
+  
+  if (link === '') {
+  alert('Please provide a link.');
+  return;
+  }
+  
+  if (u === defaultUser) {
+    var confirmed = confirm("free.user tokens are used by everyone. So it gets blocked. So message me to get Registered Token. Do you want to continue with free.user?");
+    if (!confirmed) {
+      return;
+    }
+  }
+  
+  // fetch the token from the URL
+  fetch(t + c + d)
+    .then(function(response) {
+      return response.text();
+    })
+    .then(function(token) {
+      var x = ls1 + link0 + ls2 + token;
+      var y = ls1 + "http" + a + b + b + "www." + link0 + ls2 + token;
+      var output = y;
+      if (link.indexOf(":") >= 0) {
+        output = x;
+      }
+      document.getElementById("result").value = output;
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}
+
+function copyResult() {
+  var result = document.getElementById("result");
+  result.select();
+  document.execCommand("copy");
+}
+</script>
 </head>
 <body>
-
-<form>
-	<label for="link">Link:</label><br>
-	<input type="text" id="link" name="link" required><br>
-	<label for="user-id">User ID:</label><br>
-	<input type="text" id="user-id" name="user-id" value="free.user"><br>
-	<label for="token">Registered Token Number:</label><br>
-	<input type="text" id="token" name="token" value="0"><br><br>
-	<button type="button" id="generate-btn">Generate</button>
-</form>
-
-<br>
-
-<div id="result"></div>
-
-<script>
-	$(document).ready(function(){
-
-		$('#generate-btn').click(function(){
-
-			var link = $('#link').val().trim();
-			var userID = $('#user-id').val().trim();
-			var token = $('#token').val().trim();
-
-			if (link === '') {
-				alert('Please provide a link.');
-				return;
-			}
-
-			if (userID === 'free.user') {
-				if (confirm('Free.user tokens are used by everyone, and therefore get blocked. Message me to get a registered token.')) {
-					// continue with link generation
-				} else {
-					return;
-				}
-			}
-
-			var link1 = link.replace(':', '%3A');
-			var link0 = link1.replace('/', '%2F');
-
-			var ls1 = 'https://l.facebook.com/l.php?u=';
-			var ls2 = '&h=';
-			var a = '%3A';
-			var b = '%2F';
-
-			// Get the token from the server
-			var t = 'https://tanm2580.github.io/FB_Redirect_Tool/User/' + userID + '/' + token + '.txt';
-			$.get(t, function(data) {
-
-				var output = '';
-				var token = data.trim();
-
-				if (link.includes(':')) {
-					output = ls1 + link0 + ls2 + token;
-				} else {
-					output = ls1 + 'http' + a + b + b + 'www.' + link0 + ls2 + token;
-				}
-
-				$('#result').html('<h6>' + output + '</h6><button id="copy-btn">Copy</button>');
-
-				$('#copy-btn').click(function(){
-					var temp = $('<input>').val(output).appendTo('body').select();
-					document.execCommand('copy');
-					temp.remove();
-					alert('Result copied to clipboard.');
-				});
-
-			}).fail(function() {
-				alert('Invalid user ID or token number.');
-			});
-
-		});
-
-	});
-</script>
-
+<label for="link">Link:</label>
+<input type="text" id="link" name="link"><br><br>
+<label for="userID">UserID:</label>
+<input type="text" id="userID" name="userID" placeholder="free.user"><br><br>
+<label for="tokenNumber">Token Number:</label>
+<input type="text" id="tokenNumber" name="tokenNumber" placeholder="0"><br><br>
+<button onclick="generateLink()">Generate Link</button><br><br>
+<label for="result">Result:</label>
+<input type="text" id="result" name="result">
+<button onclick="copyResult()">Copy</button>
 </body>
 </html>
