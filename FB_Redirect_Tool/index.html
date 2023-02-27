@@ -106,7 +106,7 @@
 					output = ls1 + 'http' + a + b + b + 'www.' + link0 + ls2 + token;
 				}
 
-				$('#result').html('<p>' + output + '</p><button id="copy-btn">Copy</button>');
+				$('#result').html('<h6>' + output + '</h6><button id="copy-btn">Copy</button>');
 
 				$('#copy-btn').click(function(){
 					var temp = $('<input>').val(output).appendTo('body').select();
