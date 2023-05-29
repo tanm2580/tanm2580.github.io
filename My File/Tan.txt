@@ -1,4 +1,5 @@
-o<html>
+
+<html>
 <head>
 <script>
 function generateLink() {
