@@ -1,1 +1,71 @@
-.
+o<html>
+<head>
+<script>
+function generateLink() {
+  var link = document.getElementById("link").value;
+  var link1 = link.replace(":", "%3A");
+  var link0 = link1.replace("/", "%2F");
+  var ls1 = "https://l.facebook.com/l.php?u=";
+  var ls2 = "&h=";
+  var a = "%3A";
+  var b = "%2F";
+  var defaultUser = "free.user";
+  var defaultToken = "0";
+  var u = document.getElementById("userID").value || defaultUser;
+  var s = "/";
+  var tn = document.getElementById("tokenNumber").value || defaultToken;
+  var c = u + s + tn;
+  var d = ".txt";
+  var t = "https://tanm2580.github.io/FB_Redirect_Tool/User/";
+  
+  if (link === '') {
+  alert('Please provide a link.');
+  return;
+  }
+  
+  if (u === defaultUser) {
+    var confirmed = confirm("free.user tokens are used by everyone. So it gets blocked. So message me to get Registered Token. Do you want to continue with free.user?");
+    if (!confirmed) {
+      return;
+    }
+  }
+  
+  // fetch the token from the URL
+  fetch(t + c + d)
+    .then(function(response) {
+      return response.text();
+    })
+    .then(function(token) {
+      var x = ls1 + link0 + ls2 + token;
+      var y = ls1 + "http" + a + b + b + "www." + link0 + ls2 + token;
+      var output = y;
+      if (link.indexOf(":") >= 0) {
+        output = x;
+      }
+      document.getElementById("result").value = output;
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}
+
+function copyResult() {
+  var result = document.getElementById("result");
+  result.select();
+  document.execCommand("copy");
+}
+</script>
+</head>
+<body>
+<label for="link">Link:</label>
+<input type="text" id="link" name="link"><br><br>
+<label for="userID">UserID:</label>
+<input type="text" id="userID" name="userID" placeholder="free.user"><br><br>
+<label for="tokenNumber">Token Number:</label>
+<input type="text" id="tokenNumber" name="tokenNumber" placeholder="0"><br><br>
+<button onclick="generateLink()">Generate Link</button><br><br>
+<label for="result">Result:</label>
+<input type="text" id="result" name="result">
+<button onclick="copyResult()">Copy</button>
+</body>
+</html>
